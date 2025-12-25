@@ -1,10 +1,11 @@
 import { useState, useCallback } from 'react';
-import { Palette, Image, Globe, Moon, Sun, Sparkles } from 'lucide-react';
+import { Palette, Image, Globe, Moon, Sun, Sparkles, Sliders } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useColorExtraction } from '@/hooks/use-color-extraction';
 import { ColorInfo, SavedPalette } from '@/lib/color-utils';
 import { UploadZone } from './upload-zone';
 import { UrlInput } from './url-input';
+import { TailwindGenerator } from './tailwind-generator';
 import { ColorCard } from './color-card';
 import { ColorHarmony } from './color-harmony';
 import { ExportDialog } from './export-dialog';
@@ -12,7 +13,7 @@ import { SavePaletteDialog } from './save-palette-dialog';
 import { SavedPalettes } from './saved-palettes';
 import { cn } from '@/lib/utils';
 
-type InputMode = 'image' | 'url';
+type InputMode = 'image' | 'url' | 'tailwind';
 
 export function ColorsSnaps() {
   const [mode, setMode] = useState<InputMode>('image');
@@ -97,7 +98,7 @@ export function ColorsSnaps() {
             Discover Colors from
             <br />
             <span className="bg-gradient-to-r from-violet-500 via-pink-500 to-orange-500 bg-clip-text text-transparent">
-              Images & Websites
+              Images, Websites & Generate Scales
             </span>
           </h1>
           <p className="text-muted-foreground max-w-xl mx-auto">
@@ -113,39 +114,55 @@ export function ColorsSnaps() {
             <button
               onClick={() => setMode('image')}
               className={cn(
-                'flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-md text-sm font-medium transition-all',
+                'flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-md text-sm font-medium transition-all',
                 mode === 'image'
                   ? 'bg-background text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
               )}
             >
               <Image className="h-4 w-4" />
-              Image Upload
+              <span className="hidden sm:inline">Image</span>
             </button>
             <button
               onClick={() => setMode('url')}
               className={cn(
-                'flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-md text-sm font-medium transition-all',
+                'flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-md text-sm font-medium transition-all',
                 mode === 'url'
                   ? 'bg-background text-foreground shadow-sm'
                   : 'text-muted-foreground hover:text-foreground'
               )}
             >
               <Globe className="h-4 w-4" />
-              URL Input
+              <span className="hidden sm:inline">URL</span>
+            </button>
+            <button
+              onClick={() => setMode('tailwind')}
+              className={cn(
+                'flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-md text-sm font-medium transition-all',
+                mode === 'tailwind'
+                  ? 'bg-background text-foreground shadow-sm'
+                  : 'text-muted-foreground hover:text-foreground'
+              )}
+            >
+              <Sliders className="h-4 w-4" />
+              <span className="hidden sm:inline">Tailwind</span>
             </button>
           </div>
 
           {/* Input Component */}
-          {mode === 'image' ? (
+          {mode === 'image' && (
             <UploadZone
               onFileSelect={handleFileSelect}
               previewUrl={previewUrl}
               onClearPreview={handleClearPreview}
               isLoading={isLoading}
             />
-          ) : (
+          )}
+          {mode === 'url' && (
             <UrlInput onSubmit={handleUrlSubmit} isLoading={isLoading} />
+          )}
+          {mode === 'tailwind' && (
+            <TailwindGenerator />
           )}
 
           {/* Error Display */}
@@ -157,7 +174,7 @@ export function ColorsSnaps() {
         </section>
 
         {/* Colors Display */}
-        {colors.length > 0 && (
+        {colors.length > 0 && mode !== 'tailwind' && (
           <section className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {/* Actions Bar */}
             <div className="flex items-center justify-between">
@@ -188,15 +205,17 @@ export function ColorsSnaps() {
         )}
 
         {/* Saved Palettes */}
-        <section className="mt-12">
-          <SavedPalettes
-            onSelectPalette={handleSelectPalette}
-            refreshTrigger={refreshTrigger}
-          />
-        </section>
+        {mode !== 'tailwind' && (
+          <section className="mt-12">
+            <SavedPalettes
+              onSelectPalette={handleSelectPalette}
+              refreshTrigger={refreshTrigger}
+            />
+          </section>
+        )}
 
         {/* Empty State */}
-        {colors.length === 0 && !isLoading && (
+        {colors.length === 0 && !isLoading && mode !== 'tailwind' && (
           <section className="text-center py-12">
             <div className="inline-flex p-4 rounded-full bg-muted mb-4">
               <Palette className="h-8 w-8 text-muted-foreground" />
