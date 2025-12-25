@@ -1,8 +1,5 @@
-function Home() {
-  return (
-    <div className="w-screen h-screen">
-    </div>
-  )
-}
+import { ColorsSnaps } from './colors-snaps';
 
-export default Home
+export default function Home() {
+  return <ColorsSnaps />;
+}
