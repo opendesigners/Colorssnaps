@@ -77,7 +77,7 @@ export function UploadZone({ onFileSelect, previewUrl, onClearPreview, isLoading
         {isLoading && (
           <div className="absolute inset-0 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm flex items-center justify-center">
             <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-white dark:bg-zinc-800 shadow-lg">
-              <div className="h-5 w-5 border-2 border-purple-600 border-t-transparent rounded-full animate-spin" />
+              <div className="h-5 w-5 border-2 border-zinc-900 dark:border-zinc-100 border-t-transparent rounded-full animate-spin" />
               <span className="text-sm font-medium text-foreground">Extracting colors...</span>
             </div>
           </div>
@@ -95,8 +95,8 @@ export function UploadZone({ onFileSelect, previewUrl, onClearPreview, isLoading
         className={cn(
           'relative rounded-3xl border-2 border-dashed transition-all duration-300 cursor-pointer min-h-[320px] flex items-center justify-center',
           isDragging
-            ? 'border-purple-500 bg-purple-50 dark:bg-purple-950/20 scale-[1.01]'
-            : 'border-zinc-300 dark:border-zinc-700 hover:border-purple-400 dark:hover:border-purple-600 hover:bg-zinc-50 dark:hover:bg-zinc-800/50'
+            ? 'border-zinc-500 bg-zinc-50 dark:bg-zinc-800/50 scale-[1.01]'
+            : 'border-zinc-300 dark:border-zinc-700 hover:border-zinc-500 dark:hover:border-zinc-500 hover:bg-zinc-50 dark:hover:bg-zinc-800/50'
         )}
       >
         <input
@@ -110,11 +110,11 @@ export function UploadZone({ onFileSelect, previewUrl, onClearPreview, isLoading
           <div className={cn(
             'p-5 rounded-2xl mb-6 transition-all duration-300',
             isDragging 
-              ? 'bg-purple-100 dark:bg-purple-900/30' 
+              ? 'bg-zinc-200 dark:bg-zinc-700' 
               : 'bg-zinc-100 dark:bg-zinc-800'
           )}>
             {isDragging ? (
-              <Upload className="h-12 w-12 text-purple-600 dark:text-purple-400" />
+              <Upload className="h-12 w-12 text-zinc-700 dark:text-zinc-300" />
             ) : (
               <ImageIcon className="h-12 w-12 text-zinc-400" />
             )}

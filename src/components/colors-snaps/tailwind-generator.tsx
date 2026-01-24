@@ -176,7 +176,7 @@ $${name}-900: ${colorScale['900']};`;
                 'w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border font-mono text-base',
                 !isValidColor && baseColor 
                   ? 'border-red-300 dark:border-red-800 focus:ring-red-500' 
-                  : 'border-zinc-200 dark:border-zinc-700 focus:ring-purple-500',
+                  : 'border-zinc-200 dark:border-zinc-700 focus:ring-zinc-500',
                 'focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-zinc-900 transition-all'
               )}
             />
@@ -193,7 +193,7 @@ $${name}-900: ${colorScale['900']};`;
             placeholder="primary"
             value={colorName}
             onChange={(e) => setColorName(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
-            className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900 transition-all text-base"
+            className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900 transition-all text-base"
           />
         </div>
 
@@ -293,7 +293,7 @@ $${name}-900: ${colorScale['900']};`;
                   className={cn(
                     'px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200',
                     exportFormat === format
-                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/20'
+                      ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 shadow-lg shadow-zinc-500/20'
                       : 'bg-white dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 hover:text-foreground border border-zinc-200 dark:border-zinc-600'
                   )}
                 >

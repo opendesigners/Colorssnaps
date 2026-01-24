@@ -47,7 +47,7 @@ export function SavedPalettes({ onSelectPalette, refreshTrigger }: SavedPalettes
           {palettes.map((palette) => (
             <div
               key={palette.id}
-              className="group p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-100 dark:border-zinc-700/50 hover:border-purple-300 dark:hover:border-purple-800 transition-all duration-200 cursor-pointer hover:shadow-sm"
+              className="group p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-100 dark:border-zinc-700/50 hover:border-zinc-400 dark:hover:border-zinc-500 transition-all duration-200 cursor-pointer hover:shadow-sm"
               onClick={() => onSelectPalette(palette.colors)}
             >
               <div className="flex items-center justify-between mb-3">

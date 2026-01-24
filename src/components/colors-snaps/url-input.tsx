@@ -48,7 +48,7 @@ export function UrlInput({ onSubmit, isLoading }: UrlInputProps) {
               setError(null);
             }}
             disabled={isLoading}
-            className="w-full pl-12 pr-5 py-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 text-foreground placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900 transition-all duration-200 text-base"
+            className="w-full pl-12 pr-5 py-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 text-foreground placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900 transition-all duration-200 text-base"
           />
         </div>
 
@@ -59,7 +59,7 @@ export function UrlInput({ onSubmit, isLoading }: UrlInputProps) {
         <button
           type="submit"
           disabled={isLoading || !url.trim()}
-          className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium text-base hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg shadow-purple-500/20 hover:shadow-xl hover:shadow-purple-500/30"
+          className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-zinc-200 text-white dark:text-zinc-900 font-medium text-base disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg shadow-zinc-500/20 hover:shadow-xl hover:shadow-zinc-500/30"
         >
           {isLoading ? (
             <>

@@ -41,7 +41,7 @@ export function SavePaletteDialog({ colors, source, sourceName, onSaved }: SaveP
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium text-sm hover:opacity-90 transition-all duration-200 shadow-lg shadow-purple-500/20">
+        <button className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-zinc-200 text-white dark:text-zinc-900 font-medium text-sm transition-all duration-200 shadow-lg shadow-zinc-500/20">
           <Save className="h-4 w-4" />
           Save
         </button>
@@ -72,7 +72,7 @@ export function SavePaletteDialog({ colors, source, sourceName, onSaved }: SaveP
               placeholder="My awesome palette"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900 transition-all text-base"
+              className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900 transition-all text-base"
             />
           </div>
 
@@ -84,7 +84,7 @@ export function SavePaletteDialog({ colors, source, sourceName, onSaved }: SaveP
               "w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-medium text-base transition-all duration-200",
               saved 
                 ? "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400"
-                : "bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 shadow-lg shadow-purple-500/20"
+                : "bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-zinc-200 text-white dark:text-zinc-900 shadow-lg shadow-zinc-500/20"
             )}
           >
             {saved ? (

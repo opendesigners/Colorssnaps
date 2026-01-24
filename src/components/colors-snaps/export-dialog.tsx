@@ -72,7 +72,7 @@ export function ExportDialog({ colors }: ExportDialogProps) {
                 className={cn(
                   'px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200',
                   format === f
-                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/20'
+                    ? 'bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 shadow-lg shadow-zinc-500/20'
                     : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'
                 )}
               >
@@ -113,7 +113,7 @@ export function ExportDialog({ colors }: ExportDialogProps) {
             </button>
             <button
               onClick={downloadFile}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium text-sm hover:opacity-90 transition-all duration-200 shadow-lg shadow-purple-500/20"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 dark:bg-zinc-100 dark:hover:bg-zinc-200 text-white dark:text-zinc-900 font-medium text-sm transition-all duration-200 shadow-lg shadow-zinc-500/20"
             >
               <Download className="h-4 w-4" />
               Download

@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { Palette, Image, Globe, Moon, Sun, Sparkles, Sliders } from 'lucide-react';
+import { Palette, Image, Globe, Moon, Sun, Paintbrush, Sliders } from 'lucide-react';
 import { useColorExtraction } from '@/hooks/use-color-extraction';
 import { ColorInfo } from '@/lib/color-utils';
 import { UploadZone } from './upload-zone';
@@ -63,8 +63,8 @@ export function ColorsSnaps() {
       <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50">
         <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 shadow-lg shadow-purple-500/20">
-              <Palette className="h-5 w-5 text-white" />
+            <div className="p-2 rounded-xl bg-zinc-900 dark:bg-zinc-100 shadow-lg shadow-zinc-500/20">
+              <Palette className="h-5 w-5 text-white dark:text-zinc-900" />
             </div>
             <span className="text-lg font-semibold tracking-tight text-foreground">Colors Snaps</span>
           </div>
@@ -85,14 +85,14 @@ export function ColorsSnaps() {
       <main className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
         {/* Hero Section - Generous Whitespace */}
         <section className="text-center py-16 md:py-24">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-50 dark:bg-purple-950/30 text-purple-600 dark:text-purple-400 text-sm font-medium mb-6">
-            <Sparkles className="h-4 w-4" />
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-medium mb-6">
+            <Paintbrush className="h-4 w-4" />
             Extract beautiful palettes instantly
           </div>
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground mb-6 leading-[1.1]">
             Discover Colors from
             <br />
-            <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">
+            <span className="text-zinc-900 dark:text-zinc-100">
               Images & Websites
             </span>
           </h1>
