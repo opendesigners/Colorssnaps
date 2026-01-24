@@ -42,27 +42,20 @@ export function TailwindGenerator() {
     try {
       const base = chroma(baseColor);
       
-      const luminanceValues = {
-        50: 0.95,
-        100: 0.90,
-        200: 0.80,
-        300: 0.65,
-        400: 0.50,
-        500: 0.40,
-        600: 0.30,
-        700: 0.22,
-        800: 0.14,
-        900: 0.08,
+      // Generate scale using brighten/darken for monotonic progression
+      // 50 is lightest, 500 is base color, 900 is darkest
+      const scale: TailwindScale = {
+        50: base.brighten(3).hex(),
+        100: base.brighten(2.5).hex(),
+        200: base.brighten(2).hex(),
+        300: base.brighten(1.5).hex(),
+        400: base.brighten(0.75).hex(),
+        500: base.hex(), // base color
+        600: base.darken(0.75).hex(),
+        700: base.darken(1.5).hex(),
+        800: base.darken(2).hex(),
+        900: base.darken(2.5).hex(),
       };
-
-      const scale: TailwindScale = {} as TailwindScale;
-      
-      SHADE_KEYS.forEach((shade) => {
-        const targetLuminance = luminanceValues[shade as unknown as keyof typeof luminanceValues];
-        scale[shade as unknown as keyof TailwindScale] = base.luminance(targetLuminance).hex();
-      });
-
-      scale['500'] = base.hex();
 
       return scale;
     } catch {
