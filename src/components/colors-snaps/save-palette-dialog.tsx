@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { Save, Check } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
   Dialog,
   DialogContent,
@@ -10,6 +8,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { ColorInfo, savePalette, SavedPalette } from '@/lib/color-utils';
+import { cn } from '@/lib/utils';
 
 interface SavePaletteDialogProps {
   colors: ColorInfo[];
@@ -42,19 +41,19 @@ export function SavePaletteDialog({ colors, source, sourceName, onSaved }: SaveP
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm">
-          <Save className="h-4 w-4 mr-2" />
+        <button className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium text-sm hover:opacity-90 transition-all duration-200 shadow-lg shadow-purple-500/20">
+          <Save className="h-4 w-4" />
           Save
-        </Button>
+        </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md rounded-3xl border-zinc-200/50 dark:border-zinc-800">
         <DialogHeader>
-          <DialogTitle>Save Palette</DialogTitle>
+          <DialogTitle className="text-xl font-semibold">Save Palette</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4">
+        <div className="space-y-5 pt-2">
           {/* Color preview */}
-          <div className="flex gap-1 h-12 rounded-lg overflow-hidden">
+          <div className="flex gap-1 h-14 rounded-2xl overflow-hidden">
             {colors.map((color, i) => (
               <div
                 key={i}
@@ -66,30 +65,40 @@ export function SavePaletteDialog({ colors, source, sourceName, onSaved }: SaveP
 
           {/* Name input */}
           <div className="space-y-2">
-            <label className="text-sm font-medium text-foreground">
+            <label className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
               Palette Name
             </label>
-            <Input
+            <input
               placeholder="My awesome palette"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900 transition-all text-base"
             />
           </div>
 
           {/* Save button */}
-          <Button onClick={handleSave} className="w-full" disabled={saved}>
+          <button
+            onClick={handleSave}
+            disabled={saved}
+            className={cn(
+              "w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-medium text-base transition-all duration-200",
+              saved 
+                ? "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400"
+                : "bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 shadow-lg shadow-purple-500/20"
+            )}
+          >
             {saved ? (
               <>
-                <Check className="h-4 w-4 mr-2" />
+                <Check className="h-5 w-5" />
                 Saved!
               </>
             ) : (
               <>
-                <Save className="h-4 w-4 mr-2" />
+                <Save className="h-5 w-5" />
                 Save Palette
               </>
             )}
-          </Button>
+          </button>
         </div>
       </DialogContent>
     </Dialog>

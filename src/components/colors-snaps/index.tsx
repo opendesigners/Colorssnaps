@@ -1,8 +1,7 @@
 import { useState, useCallback } from 'react';
 import { Palette, Image, Globe, Moon, Sun, Sparkles, Sliders } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { useColorExtraction } from '@/hooks/use-color-extraction';
-import { ColorInfo, SavedPalette } from '@/lib/color-utils';
+import { ColorInfo } from '@/lib/color-utils';
 import { UploadZone } from './upload-zone';
 import { UrlInput } from './url-input';
 import { TailwindGenerator } from './tailwind-generator';
@@ -46,9 +45,7 @@ export function ColorsSnaps() {
   }, [previewUrl, clearColors]);
 
   const handleSelectPalette = useCallback((selectedColors: ColorInfo[]) => {
-    // This will display colors from a saved palette
     clearColors();
-    // We need to update the colors state - for now we'll just scroll to palette section
   }, [clearColors]);
 
   const handlePaletteSaved = useCallback(() => {
@@ -61,127 +58,128 @@ export function ColorsSnaps() {
   };
 
   return (
-    <div className={cn('min-h-screen bg-background transition-colors')}>
-      {/* Header */}
-      <header className="border-b border-border sticky top-0 bg-background/80 backdrop-blur-lg z-50">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="p-2 rounded-lg bg-gradient-to-br from-violet-500 to-pink-500">
+    <div className={cn('min-h-screen bg-background transition-colors duration-300')}>
+      {/* Header - Minimal & Clean */}
+      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50">
+        <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-xl bg-gradient-to-br from-purple-600 to-pink-600 shadow-lg shadow-purple-500/20">
               <Palette className="h-5 w-5 text-white" />
             </div>
-            <span className="text-lg font-bold text-foreground">Colors Snaps</span>
+            <span className="text-lg font-semibold tracking-tight text-foreground">Colors Snaps</span>
           </div>
           
-          <Button
-            variant="ghost"
-            size="icon"
+          <button
             onClick={toggleDarkMode}
-            className="rounded-full"
+            className="p-2.5 rounded-xl text-zinc-500 hover:text-foreground hover:bg-secondary transition-all duration-200"
           >
             {darkMode ? (
               <Sun className="h-5 w-5" />
             ) : (
               <Moon className="h-5 w-5" />
             )}
-          </Button>
+          </button>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 py-8">
-        {/* Hero Section */}
-        <section className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-            <Sparkles className="h-3.5 w-3.5" />
+      <main className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
+        {/* Hero Section - Generous Whitespace */}
+        <section className="text-center py-16 md:py-24">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-50 dark:bg-purple-950/30 text-purple-600 dark:text-purple-400 text-sm font-medium mb-6">
+            <Sparkles className="h-4 w-4" />
             Extract beautiful palettes instantly
           </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground mb-6 leading-[1.1]">
             Discover Colors from
             <br />
-            <span className="bg-gradient-to-r from-violet-500 via-pink-500 to-orange-500 bg-clip-text text-transparent">
-              Images, Websites & Generate Scales
+            <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent">
+              Images & Websites
             </span>
           </h1>
-          <p className="text-muted-foreground max-w-xl mx-auto">
+          <p className="text-lg md:text-xl text-zinc-500 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed">
             Upload an image or enter a URL to instantly extract a beautiful color palette. 
             Perfect for designers, developers, and creatives.
           </p>
         </section>
 
-        {/* Input Section */}
-        <section className="max-w-xl mx-auto mb-12">
-          {/* Mode Toggle */}
-          <div className="flex gap-2 p-1 bg-muted rounded-lg mb-6">
+        {/* Input Section - Clean Card Design */}
+        <section className="max-w-2xl mx-auto mb-16 md:mb-24">
+          {/* Mode Toggle - iOS Style Segmented Control */}
+          <div className="flex p-1.5 bg-zinc-100/80 dark:bg-zinc-800/50 rounded-2xl mb-8">
             <button
               onClick={() => setMode('image')}
               className={cn(
-                'flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-md text-sm font-medium transition-all',
+                'flex-1 flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-200',
                 mode === 'image'
-                  ? 'bg-background text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
+                  ? 'bg-white dark:bg-zinc-900 text-foreground shadow-sm'
+                  : 'text-zinc-500 hover:text-foreground'
               )}
             >
               <Image className="h-4 w-4" />
-              <span className="hidden sm:inline">Image</span>
+              <span>Image</span>
             </button>
             <button
               onClick={() => setMode('url')}
               className={cn(
-                'flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-md text-sm font-medium transition-all',
+                'flex-1 flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-200',
                 mode === 'url'
-                  ? 'bg-background text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
+                  ? 'bg-white dark:bg-zinc-900 text-foreground shadow-sm'
+                  : 'text-zinc-500 hover:text-foreground'
               )}
             >
               <Globe className="h-4 w-4" />
-              <span className="hidden sm:inline">URL</span>
+              <span>URL</span>
             </button>
             <button
               onClick={() => setMode('tailwind')}
               className={cn(
-                'flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-md text-sm font-medium transition-all',
+                'flex-1 flex items-center justify-center gap-2.5 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-200',
                 mode === 'tailwind'
-                  ? 'bg-background text-foreground shadow-sm'
-                  : 'text-muted-foreground hover:text-foreground'
+                  ? 'bg-white dark:bg-zinc-900 text-foreground shadow-sm'
+                  : 'text-zinc-500 hover:text-foreground'
               )}
             >
               <Sliders className="h-4 w-4" />
-              <span className="hidden sm:inline">Tailwind</span>
+              <span>Tailwind</span>
             </button>
           </div>
 
           {/* Input Component */}
-          {mode === 'image' && (
-            <UploadZone
-              onFileSelect={handleFileSelect}
-              previewUrl={previewUrl}
-              onClearPreview={handleClearPreview}
-              isLoading={isLoading}
-            />
-          )}
-          {mode === 'url' && (
-            <UrlInput onSubmit={handleUrlSubmit} isLoading={isLoading} />
-          )}
-          {mode === 'tailwind' && (
-            <TailwindGenerator />
-          )}
+          <div className="animate-fade-in">
+            {mode === 'image' && (
+              <UploadZone
+                onFileSelect={handleFileSelect}
+                previewUrl={previewUrl}
+                onClearPreview={handleClearPreview}
+                isLoading={isLoading}
+              />
+            )}
+            {mode === 'url' && (
+              <UrlInput onSubmit={handleUrlSubmit} isLoading={isLoading} />
+            )}
+            {mode === 'tailwind' && (
+              <TailwindGenerator />
+            )}
+          </div>
 
           {/* Error Display */}
           {error && (
-            <div className="mt-4 p-4 rounded-lg bg-destructive/10 border border-destructive/20">
-              <p className="text-sm text-destructive">{error}</p>
+            <div className="mt-6 p-5 rounded-2xl bg-red-50 dark:bg-red-950/30 border border-red-100 dark:border-red-900/50">
+              <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
             </div>
           )}
         </section>
 
         {/* Colors Display */}
         {colors.length > 0 && mode !== 'tailwind' && (
-          <section className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <section className="space-y-8 pb-16 animate-fade-in">
             {/* Actions Bar */}
             <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-foreground">
-                Extracted Palette ({colors.length} colors)
+              <h2 className="text-2xl md:text-3xl font-semibold tracking-tight text-foreground">
+                Extracted Palette
+                <span className="text-zinc-400 dark:text-zinc-500 font-normal ml-2">({colors.length})</span>
               </h2>
-              <div className="flex gap-2">
+              <div className="flex gap-3">
                 <SavePaletteDialog
                   colors={colors}
                   source={mode}
@@ -192,8 +190,8 @@ export function ColorsSnaps() {
               </div>
             </div>
 
-            {/* Color Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+            {/* Color Grid - Responsive */}
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
               {colors.map((color, index) => (
                 <ColorCard key={index} color={color} index={index} />
               ))}
@@ -206,7 +204,7 @@ export function ColorsSnaps() {
 
         {/* Saved Palettes */}
         {mode !== 'tailwind' && (
-          <section className="mt-12">
+          <section className="pb-16">
             <SavedPalettes
               onSelectPalette={handleSelectPalette}
               refreshTrigger={refreshTrigger}
@@ -216,24 +214,24 @@ export function ColorsSnaps() {
 
         {/* Empty State */}
         {colors.length === 0 && !isLoading && mode !== 'tailwind' && (
-          <section className="text-center py-12">
-            <div className="inline-flex p-4 rounded-full bg-muted mb-4">
-              <Palette className="h-8 w-8 text-muted-foreground" />
+          <section className="text-center py-16 md:py-24">
+            <div className="inline-flex p-5 rounded-3xl bg-zinc-100 dark:bg-zinc-800/50 mb-6">
+              <Palette className="h-10 w-10 text-zinc-400" />
             </div>
-            <h3 className="text-lg font-medium text-foreground mb-2">
+            <h3 className="text-xl font-semibold text-foreground mb-3">
               No colors extracted yet
             </h3>
-            <p className="text-sm text-muted-foreground max-w-md mx-auto">
+            <p className="text-base text-zinc-500 max-w-md mx-auto leading-relaxed">
               Upload an image or enter a URL above to extract a beautiful color palette
             </p>
           </section>
         )}
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border mt-16">
-        <div className="max-w-6xl mx-auto px-4 py-6">
-          <p className="text-center text-sm text-muted-foreground">
+      {/* Footer - Minimal */}
+      <footer className="border-t border-border/50 mt-8">
+        <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12 py-8">
+          <p className="text-center text-sm text-zinc-400">
             Colors Snaps — Extract beautiful palettes from any image or website
           </p>
         </div>

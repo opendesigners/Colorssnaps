@@ -60,25 +60,25 @@ export function UploadZone({ onFileSelect, previewUrl, onClearPreview, isLoading
 
   if (previewUrl) {
     return (
-      <div className="relative rounded-xl overflow-hidden border border-border bg-muted/30">
+      <div className="relative rounded-3xl overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-200/50 dark:border-zinc-800 shadow-sm">
         <img
           src={previewUrl}
           alt="Preview"
-          className="w-full h-64 object-contain"
+          className="w-full h-80 object-contain bg-zinc-50 dark:bg-zinc-900"
         />
         {!isLoading && (
           <button
             onClick={onClearPreview}
-            className="absolute top-3 right-3 p-1.5 rounded-full bg-background/80 hover:bg-background text-foreground transition-colors"
+            className="absolute top-4 right-4 p-2.5 rounded-xl bg-white/90 dark:bg-zinc-800/90 hover:bg-white dark:hover:bg-zinc-800 text-zinc-600 dark:text-zinc-400 shadow-lg backdrop-blur-sm transition-all duration-200 hover:scale-105"
           >
             <X className="h-4 w-4" />
           </button>
         )}
         {isLoading && (
-          <div className="absolute inset-0 bg-background/50 flex items-center justify-center">
-            <div className="flex items-center gap-2 text-sm text-foreground">
-              <div className="h-4 w-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-              Extracting colors...
+          <div className="absolute inset-0 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm flex items-center justify-center">
+            <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-white dark:bg-zinc-800 shadow-lg">
+              <div className="h-5 w-5 border-2 border-purple-600 border-t-transparent rounded-full animate-spin" />
+              <span className="text-sm font-medium text-foreground">Extracting colors...</span>
             </div>
           </div>
         )}
@@ -93,10 +93,10 @@ export function UploadZone({ onFileSelect, previewUrl, onClearPreview, isLoading
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         className={cn(
-          'relative rounded-xl border-2 border-dashed transition-all duration-200 cursor-pointer',
+          'relative rounded-3xl border-2 border-dashed transition-all duration-300 cursor-pointer min-h-[320px] flex items-center justify-center',
           isDragging
-            ? 'border-primary bg-primary/5 scale-[1.02]'
-            : 'border-border hover:border-primary/50 hover:bg-muted/30'
+            ? 'border-purple-500 bg-purple-50 dark:bg-purple-950/20 scale-[1.01]'
+            : 'border-zinc-300 dark:border-zinc-700 hover:border-purple-400 dark:hover:border-purple-600 hover:bg-zinc-50 dark:hover:bg-zinc-800/50'
         )}
       >
         <input
@@ -106,29 +106,34 @@ export function UploadZone({ onFileSelect, previewUrl, onClearPreview, isLoading
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
         />
         
-        <div className="p-8 flex flex-col items-center justify-center text-center">
+        <div className="p-12 md:p-16 flex flex-col items-center justify-center text-center">
           <div className={cn(
-            'p-3 rounded-full mb-4 transition-colors',
-            isDragging ? 'bg-primary/10' : 'bg-muted'
+            'p-5 rounded-2xl mb-6 transition-all duration-300',
+            isDragging 
+              ? 'bg-purple-100 dark:bg-purple-900/30' 
+              : 'bg-zinc-100 dark:bg-zinc-800'
           )}>
             {isDragging ? (
-              <Upload className="h-8 w-8 text-primary" />
+              <Upload className="h-12 w-12 text-purple-600 dark:text-purple-400" />
             ) : (
-              <ImageIcon className="h-8 w-8 text-muted-foreground" />
+              <ImageIcon className="h-12 w-12 text-zinc-400" />
             )}
           </div>
           
-          <p className="text-sm font-medium text-foreground mb-1">
+          <p className="text-lg font-semibold text-foreground mb-2">
             {isDragging ? 'Drop your image here' : 'Drag & drop an image'}
           </p>
-          <p className="text-xs text-muted-foreground">
-            or click to browse (JPG, PNG, SVG, WebP)
+          <p className="text-sm text-zinc-500">
+            or click to browse
+          </p>
+          <p className="text-xs text-zinc-400 mt-3">
+            Supports JPG, PNG, SVG, WebP up to 10MB
           </p>
         </div>
       </div>
 
       {error && (
-        <p className="mt-2 text-xs text-destructive">{error}</p>
+        <p className="mt-4 text-sm text-red-500 dark:text-red-400">{error}</p>
       )}
     </div>
   );

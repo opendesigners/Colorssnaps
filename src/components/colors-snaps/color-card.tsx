@@ -35,54 +35,71 @@ export function ColorCard({ color, index }: ColorCardProps) {
 
   return (
     <div
-      className="group relative rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105"
+      className="group relative rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-200/50 dark:border-zinc-800 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
       style={{
-        animationDelay: `${index * 100}ms`,
+        animationDelay: `${index * 50}ms`,
       }}
     >
       {/* Color swatch */}
       <div
-        className="h-32 sm:h-40 w-full relative"
+        className="h-28 md:h-36 w-full relative"
         style={{ backgroundColor: color.hex }}
       >
         {color.percentage && (
           <span
-            className="absolute top-2 right-2 text-xs font-medium px-2 py-0.5 rounded-full"
+            className="absolute top-3 right-3 text-xs font-semibold px-2.5 py-1 rounded-full backdrop-blur-sm"
             style={{
-              backgroundColor: `${contrastColor}20`,
+              backgroundColor: `${contrastColor}15`,
               color: contrastColor,
             }}
           >
             {color.percentage}%
           </span>
         )}
+        
+        {/* Quick copy on hover */}
+        <button
+          onClick={() => copyToClipboard('hex')}
+          className={cn(
+            "absolute inset-0 flex items-center justify-center bg-black/0 hover:bg-black/10 transition-all duration-200 opacity-0 group-hover:opacity-100"
+          )}
+        >
+          {copiedFormat === 'hex' ? (
+            <div className="p-3 rounded-xl bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm shadow-lg">
+              <Check className="h-5 w-5 text-green-500" />
+            </div>
+          ) : (
+            <div className="p-3 rounded-xl bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm shadow-lg">
+              <Copy className="h-5 w-5 text-zinc-600 dark:text-zinc-400" />
+            </div>
+          )}
+        </button>
       </div>
 
       {/* Color info */}
-      <div className="bg-card p-3 space-y-2">
-        {/* HEX */}
-        <ColorValue
-          label="HEX"
-          value={color.hex.toUpperCase()}
-          onCopy={() => copyToClipboard('hex')}
-          copied={copiedFormat === 'hex'}
-        />
+      <div className="p-4 space-y-3">
+        {/* HEX - Primary */}
+        <div>
+          <p className="text-base font-semibold font-mono text-foreground tracking-tight">
+            {color.hex.toUpperCase()}
+          </p>
+        </div>
 
-        {/* RGB */}
-        <ColorValue
-          label="RGB"
-          value={`${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`}
-          onCopy={() => copyToClipboard('rgb')}
-          copied={copiedFormat === 'rgb'}
-        />
-
-        {/* HSL */}
-        <ColorValue
-          label="HSL"
-          value={`${color.hsl.h}°, ${color.hsl.s}%, ${color.hsl.l}%`}
-          onCopy={() => copyToClipboard('hsl')}
-          copied={copiedFormat === 'hsl'}
-        />
+        {/* RGB & HSL - Secondary */}
+        <div className="space-y-1.5">
+          <ColorValue
+            label="RGB"
+            value={`${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b}`}
+            onCopy={() => copyToClipboard('rgb')}
+            copied={copiedFormat === 'rgb'}
+          />
+          <ColorValue
+            label="HSL"
+            value={`${color.hsl.h}°, ${color.hsl.s}%, ${color.hsl.l}%`}
+            onCopy={() => copyToClipboard('hsl')}
+            copied={copiedFormat === 'hsl'}
+          />
+        </div>
       </div>
     </div>
   );
@@ -97,26 +114,26 @@ interface ColorValueProps {
 
 function ColorValue({ label, value, onCopy, copied }: ColorValueProps) {
   return (
-    <div className="flex items-center justify-between gap-2">
-      <div className="min-w-0 flex-1">
-        <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
+    <div className="flex items-center justify-between gap-2 group/item">
+      <div className="min-w-0 flex-1 flex items-center gap-2">
+        <span className="text-[10px] uppercase tracking-wider text-zinc-400 font-medium w-7">
           {label}
         </span>
-        <p className="text-xs font-mono truncate text-foreground">{value}</p>
+        <p className="text-xs font-mono truncate text-zinc-500 dark:text-zinc-400">{value}</p>
       </div>
       <button
         onClick={onCopy}
         className={cn(
-          "p-1.5 rounded-md transition-colors",
+          "p-1.5 rounded-lg transition-all duration-200 opacity-0 group-hover/item:opacity-100",
           copied
-            ? "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400"
-            : "hover:bg-muted text-muted-foreground hover:text-foreground"
+            ? "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400 opacity-100"
+            : "hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300"
         )}
       >
         {copied ? (
-          <Check className="h-3.5 w-3.5" />
+          <Check className="h-3 w-3" />
         ) : (
-          <Copy className="h-3.5 w-3.5" />
+          <Copy className="h-3 w-3" />
         )}
       </button>
     </div>

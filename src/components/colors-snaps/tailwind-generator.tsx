@@ -1,8 +1,6 @@
 import { useState, useMemo } from 'react';
 import { Copy, Check, Palette as PaletteIcon } from 'lucide-react';
 import chroma from 'chroma-js';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 
 interface TailwindScale {
@@ -44,8 +42,6 @@ export function TailwindGenerator() {
     try {
       const base = chroma(baseColor);
       
-      // Generate scale by adjusting luminance
-      // 50 = lightest (~95% luminance), 900 = darkest (~10% luminance)
       const luminanceValues = {
         50: 0.95,
         100: 0.90,
@@ -66,7 +62,6 @@ export function TailwindGenerator() {
         scale[shade as unknown as keyof TailwindScale] = base.luminance(targetLuminance).hex();
       });
 
-      // Override 500 with the actual base color for consistency
       scale['500'] = base.hex();
 
       return scale;
@@ -152,10 +147,10 @@ $${name}-900: ${colorScale['900']};`;
   };
 
   return (
-    <div className="space-y-6">
+    <div className="rounded-3xl bg-white dark:bg-zinc-900 border border-zinc-200/50 dark:border-zinc-800 shadow-sm p-6 md:p-8 space-y-8">
       {/* Input Section */}
-      <div className="space-y-4">
-        <div className="flex gap-3">
+      <div className="space-y-5">
+        <div className="flex gap-4">
           {/* Color Picker */}
           <div className="relative">
             <input
@@ -165,21 +160,24 @@ $${name}-900: ${colorScale['900']};`;
               className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
             />
             <div
-              className="w-12 h-10 rounded-lg border border-border cursor-pointer shadow-sm"
+              className="w-14 h-12 rounded-xl border-2 border-zinc-200 dark:border-zinc-700 cursor-pointer shadow-sm transition-all hover:scale-105"
               style={{ backgroundColor: baseColor }}
             />
           </div>
 
           {/* Hex Input */}
           <div className="flex-1">
-            <Input
+            <input
               type="text"
               placeholder="#8b5cf6"
               value={baseColor}
               onChange={(e) => setBaseColor(e.target.value)}
               className={cn(
-                'font-mono',
-                !isValidColor && baseColor && 'border-destructive focus-visible:ring-destructive'
+                'w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border font-mono text-base',
+                !isValidColor && baseColor 
+                  ? 'border-red-300 dark:border-red-800 focus:ring-red-500' 
+                  : 'border-zinc-200 dark:border-zinc-700 focus:ring-purple-500',
+                'focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-zinc-900 transition-all'
               )}
             />
           </div>
@@ -187,97 +185,103 @@ $${name}-900: ${colorScale['900']};`;
 
         {/* Color Name Input */}
         <div>
-          <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+          <label className="text-sm font-medium text-zinc-600 dark:text-zinc-400 mb-2 block">
             Color Name (for export)
           </label>
-          <Input
+          <input
             type="text"
             placeholder="primary"
             value={colorName}
             onChange={(e) => setColorName(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
+            className="w-full px-4 py-3 rounded-xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-200 dark:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-900 transition-all text-base"
           />
         </div>
 
         {!isValidColor && baseColor && (
-          <p className="text-xs text-destructive">Please enter a valid color (hex, rgb, or color name)</p>
+          <p className="text-sm text-red-500 dark:text-red-400">Please enter a valid color (hex, rgb, or color name)</p>
         )}
       </div>
 
       {/* Generated Scale */}
       {colorScale && (
-        <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
+        <div className="space-y-6 animate-fade-in">
           {/* Scale Preview */}
-          <div className="grid grid-cols-5 sm:grid-cols-10 gap-1.5">
-            {SHADE_KEYS.map((shade) => {
-              const hex = colorScale[shade as unknown as keyof TailwindScale];
-              const contrast = getContrastColor(hex);
-              const isCopied = copiedShade === shade;
+          <div className="rounded-2xl overflow-hidden">
+            <div className="grid grid-cols-5 sm:grid-cols-10">
+              {SHADE_KEYS.map((shade) => {
+                const hex = colorScale[shade as unknown as keyof TailwindScale];
+                const contrast = getContrastColor(hex);
+                const isCopied = copiedShade === shade;
 
-              return (
-                <button
-                  key={shade}
-                  onClick={() => copyShade(shade, hex)}
-                  className="group relative rounded-lg overflow-hidden transition-transform hover:scale-105 hover:shadow-lg"
-                >
-                  <div
-                    className="h-16 sm:h-20 flex flex-col items-center justify-center p-1"
-                    style={{ backgroundColor: hex }}
+                return (
+                  <button
+                    key={shade}
+                    onClick={() => copyShade(shade, hex)}
+                    className="group relative transition-all duration-200 hover:scale-105 hover:z-10"
                   >
-                    <span
-                      className="text-[10px] font-semibold"
-                      style={{ color: contrast }}
+                    <div
+                      className="h-20 sm:h-24 flex flex-col items-center justify-center p-1"
+                      style={{ backgroundColor: hex }}
                     >
-                      {shade}
-                    </span>
-                    <span
-                      className="text-[8px] sm:text-[10px] font-mono opacity-80 hidden sm:block"
-                      style={{ color: contrast }}
+                      <span
+                        className="text-xs font-semibold"
+                        style={{ color: contrast }}
+                      >
+                        {shade}
+                      </span>
+                      <span
+                        className="text-[9px] font-mono opacity-70 hidden sm:block mt-1"
+                        style={{ color: contrast }}
+                      >
+                        {hex.toUpperCase()}
+                      </span>
+                    </div>
+                    
+                    {/* Copy indicator */}
+                    <div
+                      className={cn(
+                        'absolute inset-0 flex items-center justify-center backdrop-blur-sm transition-opacity',
+                        isCopied ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                      )}
+                      style={{ backgroundColor: `${hex}dd` }}
                     >
-                      {hex.toUpperCase()}
-                    </span>
-                  </div>
-                  
-                  {/* Copy indicator */}
-                  <div
-                    className={cn(
-                      'absolute inset-0 flex items-center justify-center transition-opacity',
-                      isCopied ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
-                    )}
-                    style={{ backgroundColor: `${hex}cc` }}
-                  >
-                    {isCopied ? (
-                      <Check className="h-4 w-4" style={{ color: contrast }} />
-                    ) : (
-                      <Copy className="h-3 w-3" style={{ color: contrast }} />
-                    )}
-                  </div>
-                </button>
-              );
-            })}
+                      {isCopied ? (
+                        <Check className="h-5 w-5" style={{ color: contrast }} />
+                      ) : (
+                        <Copy className="h-4 w-4" style={{ color: contrast }} />
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           {/* Export Section */}
-          <div className="bg-card rounded-xl border border-border p-4 space-y-4">
+          <div className="bg-zinc-50 dark:bg-zinc-800/50 rounded-2xl p-5 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold text-foreground">Export Color Scale</h3>
-              <Button
-                variant="outline"
-                size="sm"
+              <button
                 onClick={copyAll}
-                className="gap-2"
+                className={cn(
+                  "flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200",
+                  copiedAll 
+                    ? "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400"
+                    : "bg-white dark:bg-zinc-700 border border-zinc-200 dark:border-zinc-600 text-foreground hover:bg-zinc-50 dark:hover:bg-zinc-600"
+                )}
               >
                 {copiedAll ? (
                   <>
-                    <Check className="h-3.5 w-3.5" />
+                    <Check className="h-4 w-4" />
                     Copied!
                   </>
                 ) : (
                   <>
-                    <Copy className="h-3.5 w-3.5" />
+                    <Copy className="h-4 w-4" />
                     Copy All
                   </>
                 )}
-              </Button>
+              </button>
             </div>
 
             {/* Format Selector */}
@@ -287,78 +291,34 @@ $${name}-900: ${colorScale['900']};`;
                   key={format}
                   onClick={() => setExportFormat(format)}
                   className={cn(
-                    'px-3 py-1.5 text-xs font-medium rounded-md transition-colors',
+                    'px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200',
                     exportFormat === format
-                      ? 'bg-primary text-primary-foreground'
-                      : 'bg-muted text-muted-foreground hover:text-foreground'
+                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/20'
+                      : 'bg-white dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 hover:text-foreground border border-zinc-200 dark:border-zinc-600'
                   )}
                 >
-                  {format === 'tailwind' ? 'Tailwind Config' : format.toUpperCase()}
+                  {format === 'tailwind' ? 'Tailwind' : format.toUpperCase()}
                 </button>
               ))}
             </div>
 
             {/* Code Preview */}
-            <div className="bg-muted rounded-lg p-4 max-h-48 overflow-auto">
-              <pre className="text-xs font-mono text-foreground whitespace-pre-wrap">
+            <div className="bg-zinc-900 dark:bg-zinc-950 rounded-xl p-5 max-h-52 overflow-auto">
+              <pre className="text-sm font-mono text-zinc-300 whitespace-pre-wrap">
                 {getExportContent()}
               </pre>
             </div>
-          </div>
-
-          {/* Individual Shade Cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-            {SHADE_KEYS.map((shade) => {
-              const hex = colorScale[shade as unknown as keyof TailwindScale];
-              const contrast = getContrastColor(hex);
-              const isCopied = copiedShade === `card-${shade}`;
-
-              return (
-                <div
-                  key={`card-${shade}`}
-                  className="rounded-lg overflow-hidden border border-border"
-                >
-                  <div
-                    className="h-12 flex items-center justify-center"
-                    style={{ backgroundColor: hex }}
-                  >
-                    <span className="text-xs font-bold" style={{ color: contrast }}>
-                      {shade}
-                    </span>
-                  </div>
-                  <div className="bg-card p-2 flex items-center justify-between">
-                    <span className="text-[10px] font-mono text-muted-foreground">
-                      {hex.toUpperCase()}
-                    </span>
-                    <button
-                      onClick={async () => {
-                        await navigator.clipboard.writeText(hex);
-                        setCopiedShade(`card-${shade}`);
-                        setTimeout(() => setCopiedShade(null), 2000);
-                      }}
-                      className="p-1 rounded hover:bg-muted transition-colors"
-                    >
-                      {isCopied ? (
-                        <Check className="h-3 w-3 text-green-500" />
-                      ) : (
-                        <Copy className="h-3 w-3 text-muted-foreground" />
-                      )}
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
           </div>
         </div>
       )}
 
       {/* Empty State */}
       {!colorScale && (
-        <div className="text-center py-8">
-          <div className="inline-flex p-3 rounded-full bg-muted mb-3">
-            <PaletteIcon className="h-6 w-6 text-muted-foreground" />
+        <div className="text-center py-12">
+          <div className="inline-flex p-4 rounded-2xl bg-zinc-100 dark:bg-zinc-800 mb-4">
+            <PaletteIcon className="h-8 w-8 text-zinc-400" />
           </div>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-base text-zinc-500">
             Enter a valid color to generate your Tailwind scale
           </p>
         </div>

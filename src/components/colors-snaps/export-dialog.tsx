@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Download, Copy, Check } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -53,17 +52,17 @@ export function ExportDialog({ colors }: ExportDialogProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm">
-          <Download className="h-4 w-4 mr-2" />
+        <button className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 font-medium text-sm transition-all duration-200">
+          <Download className="h-4 w-4" />
           Export
-        </Button>
+        </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-lg">
+      <DialogContent className="sm:max-w-lg rounded-3xl border-zinc-200/50 dark:border-zinc-800">
         <DialogHeader>
-          <DialogTitle>Export Palette</DialogTitle>
+          <DialogTitle className="text-xl font-semibold">Export Palette</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-4">
+        <div className="space-y-5 pt-2">
           {/* Format selector */}
           <div className="flex gap-2">
             {(['css', 'json', 'figma'] as ExportFormat[]).map((f) => (
@@ -71,10 +70,10 @@ export function ExportDialog({ colors }: ExportDialogProps) {
                 key={f}
                 onClick={() => setFormat(f)}
                 className={cn(
-                  'px-3 py-1.5 text-sm font-medium rounded-md transition-colors',
+                  'px-4 py-2 text-sm font-medium rounded-xl transition-all duration-200',
                   format === f
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-muted text-muted-foreground hover:text-foreground'
+                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/20'
+                    : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'
                 )}
               >
                 {f.toUpperCase()}
@@ -83,31 +82,42 @@ export function ExportDialog({ colors }: ExportDialogProps) {
           </div>
 
           {/* Preview */}
-          <div className="bg-muted rounded-lg p-4 max-h-64 overflow-auto">
-            <pre className="text-xs font-mono text-foreground whitespace-pre-wrap">
+          <div className="bg-zinc-900 dark:bg-zinc-950 rounded-2xl p-5 max-h-64 overflow-auto">
+            <pre className="text-sm font-mono text-zinc-300 whitespace-pre-wrap">
               {getExportContent()}
             </pre>
           </div>
 
           {/* Actions */}
-          <div className="flex gap-2 justify-end">
-            <Button variant="outline" size="sm" onClick={copyToClipboard}>
+          <div className="flex gap-3 justify-end">
+            <button
+              onClick={copyToClipboard}
+              className={cn(
+                "flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200",
+                copied 
+                  ? "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400"
+                  : "bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700"
+              )}
+            >
               {copied ? (
                 <>
-                  <Check className="h-4 w-4 mr-2" />
+                  <Check className="h-4 w-4" />
                   Copied!
                 </>
               ) : (
                 <>
-                  <Copy className="h-4 w-4 mr-2" />
+                  <Copy className="h-4 w-4" />
                   Copy
                 </>
               )}
-            </Button>
-            <Button size="sm" onClick={downloadFile}>
-              <Download className="h-4 w-4 mr-2" />
+            </button>
+            <button
+              onClick={downloadFile}
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium text-sm hover:opacity-90 transition-all duration-200 shadow-lg shadow-purple-500/20"
+            >
+              <Download className="h-4 w-4" />
               Download
-            </Button>
+            </button>
           </div>
         </div>
       </DialogContent>
