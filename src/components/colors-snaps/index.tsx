@@ -10,6 +10,7 @@ import { ColorHarmony } from './color-harmony';
 import { ExportDialog } from './export-dialog';
 import { SavePaletteDialog } from './save-palette-dialog';
 import { SavedPalettes } from './saved-palettes';
+import { UserMenu } from '@/components/auth/user-menu';
 import { cn } from '@/lib/utils';
 
 type InputMode = 'image' | 'url' | 'tailwind';
@@ -69,16 +70,19 @@ export function ColorsSnaps() {
             <span className="text-lg font-semibold tracking-tight text-foreground">Colors Snaps</span>
           </div>
           
-          <button
-            onClick={toggleDarkMode}
-            className="p-2.5 rounded-xl text-zinc-500 hover:text-foreground hover:bg-secondary transition-all duration-200"
-          >
-            {darkMode ? (
-              <Sun className="h-5 w-5" />
-            ) : (
-              <Moon className="h-5 w-5" />
-            )}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={toggleDarkMode}
+              className="p-2.5 rounded-xl text-zinc-500 hover:text-foreground hover:bg-secondary transition-all duration-200"
+            >
+              {darkMode ? (
+                <Sun className="h-5 w-5" />
+              ) : (
+                <Moon className="h-5 w-5" />
+              )}
+            </button>
+            <UserMenu />
+          </div>
         </div>
       </header>
 
